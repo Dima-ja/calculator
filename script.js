@@ -1,5 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-  document.addEventListener("click", function () {
-    //När man klickar på siffror, så visas de i display
+  const calculator = document.querySelector(".calculator");
+  const keys = calculator.querySelector(".calculator__keys");
+
+  keys.addEventListener("click", (e) => {
+    if (e.target.matches("button")) {
+      // Do something
+    }
   });
 });
