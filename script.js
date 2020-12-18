@@ -2,46 +2,62 @@ document.addEventListener("DOMContentLoaded", function () {
   const calculator = document.querySelector(".calculator");
   const keys = calculator.querySelector(".calculator__keys");
   const calcDisplay = document.querySelector(".calculator__display");
-  let numberArray = [];
-  let currentNumbers = [];
+  //let currentNumbers = [];
+  let firstNumber="";
+  let savedfirst="";
+  let secondNumber ="";
+  let operatorValue = "";
+  let sum = 0;
 
   keys.addEventListener("click", (e) => {
-    if (e.target.matches(".noBtn")) {
-      let ourNumber = Number(e.target.textContent);
-
-      numberArray.push(ourNumber);
-
-      let concatNumber = numberArray.join("");
-      concatNumber = Number(concatNumber);
-      calcDisplay.textContent = concatNumber;
-
-      return currentNumbers.push(concatNumber);
-    } else if (e.target.matches(".key--operator")) {
-      // först när vi trycker här, ska numret sparas
-      // SEDAN när vi trycker på +-* ska detta hända:
-      let firstValue = currentNumbers[currentNumbers.length - 1];
-      console.log(firstValue);
-      let operatorValue = e.target.textContent;
-      console.log(operatorValue);
-      //Spara operatorValue någonstans så att man kan ta firstValue (+-*) secondValue
-
-      if (e.target.matches(".noBtn")) {
-        let ourNumber = Number(e.target.textContent);
-
-        numberArray.push(ourNumber);
-
-        let concatNumber = numberArray.join("");
-        concatNumber = Number(concatNumber);
-        calcDisplay.textContent = concatNumber;
-
-        return currentNumbers.push(concatNumber);
-      } else if (e.target.matches(".key--equal")) {
-        let secondValue = currentNumbers[currentNumbers.length - 1];
-        console.log(secondValue);
-        //firstValue (+-*) secondValue
-        let sum = `${firstValue}${operatorValue}${secondValue}`;
-        calcDisplay.textContent = sum;
-      }
+    if (e.target.matches(".clear")) {
+      firstNumber="";
+      savedfirst="";
+      secondNumber ="";
+      operatorValue = "";
+      sum = 0;
+      calcDisplay.textContent="0";
     }
+
+    if (e.target.matches(".noBtn")) {
+      let currentNumber = e.target.textContent;
+      firstNumber += currentNumber;
+      calcDisplay.textContent = firstNumber;
+      return firstNumber;
+
+    } else if (e.target.matches(".key--equal")) {
+        let numbersavedfirst = Number(savedfirst);
+        let numberfirstnumber = Number(firstNumber);
+        
+        switch(operatorValue) {
+          case "+":
+            sum = numbersavedfirst + numberfirstnumber;
+            break;
+          case "-":
+            sum = numbersavedfirst - numberfirstnumber;
+            break;
+          case "÷":
+            sum = numbersavedfirst/numberfirstnumber;
+            break;
+          case "×":
+            sum = numbersavedfirst*numberfirstnumber
+            break;
+        }
+        console.log(sum);
+        calcDisplay.textContent = sum;
+        firstNumber = sum;
+
+    } else if (e.target.matches(".key--operator")) {
+        operatorValue = e.target.textContent;
+        //keys.querySelectorAll('.noBtn').classList.add('noBtn2');
+        //keys.querySelectorAll('.noBtn').classList.remove('.noBtn')
+        console.log(operatorValue);
+
+        savedfirst = firstNumber;
+        firstNumber = "";
+
+    };
+
   });
+  
 });
